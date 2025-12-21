@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from fastapi.responses import RedirectResponse
 
 app = FastAPI()
 class Url(BaseModel):
@@ -24,4 +25,5 @@ def redirect_url(comp_url):
     if comp_url not in url_dict:
         raise HTTPException(status_code=404,detail="url not found")
     else:
-        return {"original_url":url_dict[comp_url]}
+        return RedirectResponse(url=f"{url_dict[comp_url]}",status_code=302)
+    
